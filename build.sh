@@ -83,6 +83,8 @@ elif [ "$OMR_TARGET" = "r4s" ]; then
 	OMR_REAL_TARGET="aarch64_generic"
 elif [ "$OMR_TARGET" = "ubnt-erx" ]; then
 	OMR_REAL_TARGET="mipsel_24kc"
+elif [ "$OMR_TARGET" = "newifi-d2" ]; then
+	OMR_REAL_TARGET="mipsel_24kc"
 else
 	OMR_REAL_TARGET=${OMR_TARGET}
 fi
