@@ -1,0 +1,3 @@
+src-link packages /home/user/openwrt/mptcprouter/openmptcprouter/feeds/packages
+src-link luci /home/user/openwrt/mptcprouter/openmptcprouter/feeds/luci
+src-link openmptcprouter /home/user/openwrt/mptcprouter/openmptcprouter/feeds/openmptcprouter
