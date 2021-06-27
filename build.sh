@@ -85,6 +85,12 @@ elif [ "$OMR_TARGET" = "ubnt-erx" ]; then
 	OMR_REAL_TARGET="mipsel_24kc"
 elif [ "$OMR_TARGET" = "newifi-d2" ]; then
 	OMR_REAL_TARGET="mipsel_24kc"
+elif [ "$OMR_TARGET" = "mir3g" ]; then
+	OMR_REAL_TARGET="mipsel_24kc"
+elif [ "$OMR_TARGET" = "xiaomi-mir4" ]; then
+	OMR_REAL_TARGET="mipsel_24kc"		
+elif [ "$OMR_TARGET" = "xiaomi-ac2100" ]; then
+	OMR_REAL_TARGET="mipsel_24kc"	
 else
 	OMR_REAL_TARGET=${OMR_TARGET}
 fi
