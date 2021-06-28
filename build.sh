@@ -83,6 +83,8 @@ elif [ "$OMR_TARGET" = "r4s" ]; then
 	OMR_REAL_TARGET="aarch64_generic"
 elif [ "$OMR_TARGET" = "ubnt-erx" ]; then
 	OMR_REAL_TARGET="mipsel_24kc"
+elif [ "$OMR_TARGET" = "mir3g" ]; then
+	OMR_REAL_TARGET="mipsel_24kc"
 else
 	OMR_REAL_TARGET=${OMR_TARGET}
 fi
@@ -353,12 +355,14 @@ if ! patch -Rf -N -p1 -s --dry-run < ../../patches/nanqinlang.patch; then
 fi
 echo "Done"
 
+if [ "$OMR_OPENWRT" != "openwrt-19.07" ] ; then
 echo "Checking if remove_abi patch is set or not"
 if ! patch -Rf -N -p1 -s --dry-run < ../../patches/remove_abi.patch; then
 	echo "apply..."
 	patch -N -p1 -s < ../../patches/remove_abi.patch
 fi
 echo "Done"
+fi
 
 # Add BBR2 patch, only working on 64bits images for now
 if [ "$OMR_TARGET" = "x86_64" ] || [ "$OMR_TARGET" = "bpi-r64" ] || [ "$OMR_TARGET" = "rpi4" ] || [ "$OMR_TARGET" = "espressobin" ] || [ "$OMR_TARGET" = "r2s" ] || [ "$OMR_TARGET" = "r4s" ] || [ "$OMR_TARGET" = "rpi3" ]; then
@@ -453,6 +457,7 @@ rm -rf feeds/luci/modules/luci-mod-network
 [ -d feeds/${OMR_DIST}/luci-mod-status ] && rm -rf feeds/luci/modules/luci-mod-status
 [ -d feeds/${OMR_DIST}/luci-app-statistics ] && rm -rf feeds/luci/applications/luci-app-statistics
 
+if [ "$OMR_OPENWRT" != "openwrt-19.07" ] ; then
 echo "Add Occitan translation support"
 if ! patch -Rf -N -p1 -s --dry-run < patches/luci-occitan.patch; then
 	patch -N -p1 -s < patches/luci-occitan.patch
@@ -460,6 +465,7 @@ if ! patch -Rf -N -p1 -s --dry-run < patches/luci-occitan.patch; then
 fi
 [ -d $OMR_FEED/luci-base/po/oc ] && cp -rf $OMR_FEED/luci-base/po/oc feeds/luci/modules/luci-base/po/
 echo "Done"
+fi
 
 cd "$OMR_TARGET/source"
 echo "Update feeds index"
