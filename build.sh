@@ -26,6 +26,21 @@ _get_repo() (
 	git checkout -f "origin/$3" -B "build" 2>/dev/null || git checkout "$3" -B "build"
 )
 
+
+_get_repo_tag() (
+	mkdir -p "$1"
+	cd "$1"
+	[ -d .git ] || git init
+	if git remote get-url origin >/dev/null 2>/dev/null; then
+		git remote set-url origin "$2"
+	else
+		git remote add origin "$2"
+	fi
+	git fetch origin -f
+	git fetch origin --tags -f
+	git checkout "v19.07.2" -B "build"
+)
+
 OMR_DIST=${OMR_DIST:-openmptcprouter}
 OMR_HOST=${OMR_HOST:-$(curl -sS ifconfig.co)}
 OMR_PORT=${OMR_PORT:-80}
@@ -98,6 +113,10 @@ elif [ "$OMR_OPENWRT" = "master" ]; then
 	_get_repo "$OMR_TARGET/source" https://github.com/openwrt/openwrt "master"
 	_get_repo feeds/packages https://github.com/openwrt/packages "master"
 	_get_repo feeds/luci https://github.com/openwrt/luci "master"
+elif [ "$OMR_OPENWRT" = "openwrt-19.07" ]; then
+	_get_repo_tag "$OMR_TARGET/source" https://github.com/openwrt/openwrt
+	_get_repo feeds/packages https://github.com/openwrt/packages "99efce0cd27adfcc53384fba93f37e5ee2e517de"
+	_get_repo feeds/luci https://github.com/openwrt/luci "13dd17fca148965d38f0d4e578b19679a7c4daa2"
 else
 	_get_repo "$OMR_TARGET/source" https://github.com/openwrt/openwrt "${OMR_OPENWRT}"
 	_get_repo feeds/packages https://github.com/openwrt/packages "${OMR_OPENWRT}"
